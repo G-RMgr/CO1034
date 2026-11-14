@@ -8,7 +8,7 @@
 2. Sarman Silwal (GitHub Username)[ROLE]
 3. Muhammad Mahad (GitHub Username)[ROLE]
 4. Abdus Saboor Qudwai (abdussaboorq) [ROLE]
-5. Nijham Nicholas (GitHub Username)[ROLE]
+5. Nijham Nicholas (nijhumcruze) [UI DEVELOPER]
 6. Noor Al Ain (GitHub Username)[ROLE]
 7. Nischal Gajurel (GitHub Username)[ROLE]
 8. Raj Govindbhai (GitHub Username)[ROLE]
