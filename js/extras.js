@@ -1,0 +1,1 @@
+// resume game, QR scanner, Map, PWA (Extra Developer)

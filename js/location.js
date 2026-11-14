@@ -1,0 +1,1 @@
+//Geolocation, 2-minute update, error messages (Location developer)
