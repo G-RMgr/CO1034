@@ -12,10 +12,12 @@ body {
     flex-direction: column;
 }
 
-/* Header */
+
 main {
     flex: 1;
 }
+
+/* Header */
 header {
     background-color: #455230;
     padding: 20px;

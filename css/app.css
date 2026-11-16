@@ -1,1 +1,49 @@
 /* Styles for the main application */
+
+/* Main section */
+
+main {
+    text-align: center;
+    padding: 30px 20px;
+}
+
+main h1 {
+    color: #455230;
+}
+
+/* Treasure hunt containers */
+
+#treasureHunts {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    max-width: 900px;
+    margin: 30px auto;
+    padding: 0;
+}
+
+#treasureHunts a {
+    display: block;
+    background-color: #455230;
+    color: #EBEBD8;
+    padding: 25px 20px;
+    border: 2px solid #9BA685;
+    border-radius: 10px;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+#treasureHunts a:hover {
+    background-color: #9BA685;
+    color: #455230;
+}
+
+/* mobile view */
+@media (max-width: 750px){
+    #treasureHunts {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+}

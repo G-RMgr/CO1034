@@ -1,4 +1,21 @@
 /* css for index.html */
+
+.btn {
+    display: inline-block;
+    background-color: #455230;
+    color: gold;
+    padding: 16px 30px;
+    border: 2px solid #9BA685;
+    border-radius: 8px;
+    font-size: 18px;
+    font-weight: bold
+}
+
+.btn:hover {
+    background-color: #9BA685;
+    color: #455230
+}
+
 /* Team Section */
 
 #Team {
@@ -52,6 +69,7 @@
     .team-member {
         padding: 15px 10px;
     }
+
 
     .team-member h3 {
         font-size: 16px;
