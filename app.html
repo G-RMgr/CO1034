@@ -3,8 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <title>Treasure Hunt Adventure</title>
+
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/app.css">
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-2L2WCX5F4H"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-2L2WCX5F4H');
+    </script>
+
 </head>
 <body>
+
+    <!-- Header Section -->
+    <header>
+        <div class="logo-container" >
+            <img src="images/logo.png" alt="Treasure Hunt Logo">
+            <div>
+                <h1>Treasure Hunt app</h1>
+                <p>Solve clues, decode riddles, and race to uncover the final reward!</p>
+            </div>
+        </div>
+
+        <button class="hamburger" onclick="showMenu()" aria-label="Toggle menu">☰</button>
+
+        <nav id="menu">
+            <a href = "#About">About</a>
+            <a href = "#Advantages">Advantages</a>
+            <a href = "#Team">Team</a>
+            <a href = "#Marketing">Marketing</a>
+            <a href = "#Credits">Credits</a>
+        </nav>
+    </header>
     <h1>List of Treasure Hunts</h1>
 
 
@@ -12,6 +47,11 @@
     </div>
 
     <button id="my button" onclick="LoadTreasureHunts()">Load Treasure Hunts</button>
+
+    <footer>
+        <p><a href="https://github.com/G-RMgr/CO1034" target="_blank">GitHub Repository</a> | <a href="test.html">Test Page</a> | <a href="notes.html">Project Notes</a></p>
+
+    </footer>
 
 <script>
 
@@ -40,15 +80,7 @@
     
 
 
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-2L2WCX5F4H"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
 
-  gtag('config', 'G-2L2WCX5F4H');
-</script>
 
 </body>
 </html>
