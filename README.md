@@ -6,15 +6,16 @@
 
 1. Gavrav Rana (GitHub Username) [ROLE]
 2. Sarman Silwal (GitHub Username)[ROLE]
-3. Muhammad Mahad (GitHub Username)[ROLE]
-4. Abdus Saboor Qudwai (abdussaboorq) [ROLE]
-5. Nijham Nicholas (nijhumcruze) [UI DEVELOPER]
-6. Noor Al Ain (nurella9)[LANDING PAGE DEVELOPER]
-7. Nischal Gajurel (anishgazurel-crypto)[ROLE]
-8. Raj Govindbhai (GitHub Username)[ROLE]
+3. Nischal Gajurel (anishgazurel-crypto)[ROLE]
+4. Muhammad Mahad (GitHub Username)[ROLE]
+5. Abdus Saboor Qudwai (abdussaboorq) [ROLE]
+6. Nijham Nicholas (nijhumcruze) [UI DEVELOPER]
+7. Noor Al Ain (nurella9)[LANDING PAGE DEVELOPER]
+9. Raj Govindbhai (GitHub Username)[ROLE]
 
 
 #   Social Media Links
+
 
 
 
