@@ -21,6 +21,11 @@ Modified "README.md" with complete team roster, project structure and AI credits
     Team Section includes the whole roster and their roles
     Marketing Section includes X follow button as well as facebook page link
 
+15/11/2026
+Gaurav Rana Magar
+
+Fixed some minor errors on index.html made by Abdus
+
 16/11/2026
 Abdus Saboor Qudwai
 
