@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Start</title>
+</head>
+<body>
+<h1>Start <span id="treasureHunt"></span></h1>
+
+<p> Provide your Name to start the Treasure Hunt</p>
+
+<form>
+    <input type="text" placeholder="Enter your Name" id="playerName">
+    <input type="button" value="Start" onclick="start()" />
+</form>
+
+<script>
+    const treasureHuntNameElement = document.getElementById("treasureHunt");
+    const playerNameElement = document.getElementById("playerName");
+    const params = new URLSearchParams(window.location.search);
+
+    if (!params.has("name") || !params.has("uuid")) {
+        alert("Please enter a valid name and uuid to start the Treasure Hunt.");
+        location.href="app.html";
+    }
+    treasureHuntNameElement.innerHTML = params.get("name");
+
+    function start() {
+        const playerName = playerNameElement.value;
+        const appName = "TEAM_G"
+        const uuid = params.get("uuid");
+        const START_URL = "https://codecyprus.org/th/api/start?" + "player=" + encodeURIComponent(playerName) + "&app=" + appName + "&treasure-hunt-id=" + uuid;
+        fetch(START_URL)
+        .then(res => res.json())
+        .then(data => {
+            console.log(data);
+            if(data.status === "OK") {
+               sessionStorage.setItem("session", data.session);
+               sessionStorage.setItem("player", playerName);
+                location.href = 'question.html'
+            }
+            else{
+                alert(data.errorMessages);
+            }
+        })
+
+    }
+
+</script>
+
+
+</body>
+</html>
