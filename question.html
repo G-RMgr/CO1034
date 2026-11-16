@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Question</title>
+</head>
+<body>
+<h2 id = "questionText"></h2>
+<p id = "question"></p>
+
+<ul id = "answers"></ul>
+<form>
+    <input type="button" value="Submit" />
+</form>
+
+<script>
+    const params = new URLSearchParams(window.location.search);
+    if (!params.has('sessionID')) {
+        alert("Cannot get a question without session ID");
+        location.href = "app.html"
+    }
+
+    const sessionID = params.get('sessionID');
+
+    const QUESTION_URL = 'https://codecyprus.org/th/api/question?session=ag9nfmNvZGVjeXBydXNvcmdyFAsSB1Nlc3Npb24YgICAoMa0gQoM'
+
+    fetch(QUESTION_URL)
+    .then(res => res.json())
+    .then(data => {
+        if (data.status === "OK") {
+            if (data.correct){
+
+            }
+            else{
+                alert(data.errorMessages);
+            }
+
+
+        }
+    });
+
+    function submitAnswer() {
+        const answer = answerElement.value;
+        const ANSWER_URL = 'https://codecyprus.org/th/api/answer?session=ag9nfmNvZGVjeXBydXNvcmdyFAsSB1Nlc3Npb24YgICAoMa0gQoM&answer=42'
+        fetch(ANSWER_URL)
+        .then(res => res.json())
+        .then(data => {
+            if (data.status === "OK") {
+                if (data.correct){
+                    if (data.completed){
+
+                    }
+                }
+                else {
+                    alert(data.errorMessages);
+                }
+            }
+        })
+    }
+</script>
+
+</body>
+</html>
