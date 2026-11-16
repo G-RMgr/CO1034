@@ -30,7 +30,7 @@
                 <p>Solve clues, decode riddles, and race to uncover the final reward!</p>
             </div>
         </div>
-
+        <!-- hamburger menu for mobile view -->
         <button class="hamburger" onclick="showMenu()" aria-label="Toggle menu">☰</button>
 
         <nav id="menu">
@@ -41,14 +41,18 @@
 
         </nav>
     </header>
+
+    <!-- Main Section -->
     <main>
         <h1>List of Treasure Hunts</h1>
         <p>Select the available treasure hunt.</p>
+
+        <!--gets available treasure hunt from API call -->
         <ul id = "treasureHunts">
         </ul>
     </main>
 
-
+    <!-- footer section -->
     <footer>
         <div class="footer-container">
             <div id = "Container1">
@@ -67,11 +71,12 @@
     </footer>
 
 <script>
-   
+   /* enables hamburger menu */
     function showMenu() {
         document.getElementById("menu").classList.toggle("open");
     }
 
+    
     const LIST_URL = "https://codecyprus.org/th/api/list";
     fetch(LIST_URL)
         .then(response => response.json())
