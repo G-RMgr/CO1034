@@ -2,7 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Treasure Hunt Adventure</title>
+    
 
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/app.css">
@@ -65,6 +67,10 @@
     </footer>
 
 <script>
+   
+    function showMenu() {
+        document.getElementById("menu").classList.toggle("open");
+    }
 
     const LIST_URL = "https://codecyprus.org/th/api/list";
     fetch(LIST_URL)
