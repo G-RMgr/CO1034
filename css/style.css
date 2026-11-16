@@ -7,10 +7,15 @@ body {
     font-family: Arial, sans-serif;
     background-color: #EBEBD8;
     color: #637545;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
 /* Header */
-
+main {
+    flex: 1;
+}
 header {
     background-color: #455230;
     padding: 20px;
@@ -71,6 +76,15 @@ nav a:hover {
     cursor: pointer;
 }
 
+footer {
+    background-color: #455230;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-top: 2px solid #637545;
+}
+
 /* Mobile screen */
 
 @media (max-width: 900px) {
@@ -106,4 +120,6 @@ nav a:hover {
     nav.open {
         display: flex;
     }
+
+
 }
