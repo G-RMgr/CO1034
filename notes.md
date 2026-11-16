@@ -1,18 +1,23 @@
-DOCUMENTATION & CHANGES LOG
+# DOCUMENTATION & CHANGES LOG
 
-14/11/2026
+# 09/11/2026
+Gaurav Rana Magar
+
+* Made github kanban board
+
+# 14/11/2026
 Abdus Saboor Qudwai
 
 
-Added landing page ("index.html") with layout, header, navigation, hero section, project scope, advantage list and team 
-Added note.txt for DOCUMENTATION and developmental steps of the project
-Removed boilerplate text and unlinked text
-Modified "README.md" with complete team roster, project structure and AI credits
+* Added landing page ("index.html") with layout, header, navigation, hero section, project scope, advantage list and team 
+* Added note.txt for DOCUMENTATION and developmental steps of the project
+* Removed boilerplate text and unlinked text
+* Modified "README.md" with complete team roster, project structure and AI credits
 
--README.md 
+* README.md 
     team table, Git handles, Main file mapping and project structure guide
 
--index.html
+* index.html
     <head> includes metadata, viewport scaling, stylesheet link and analytics tracking tag.
     <header> includes logo container, brand tagline and navigation bar jumping to page sections.
     Hero Section includes main call-to-action button linking to the gameplay interface
@@ -21,17 +26,29 @@ Modified "README.md" with complete team roster, project structure and AI credits
     Team Section includes the whole roster and their roles
     Marketing Section includes X follow button as well as facebook page link
 
-15/11/2026
+# 15/11/2026
 Gaurav Rana Magar
 
-Fixed some minor errors on index.html made by Abdus
+* Fixed some minor errors on index.html made by Abdus
 
-16/11/2026
+# 16/11/2026
 Abdus Saboor Qudwai
 
-Did some work on /js api.js
+* Did some work on /js api.js
 
-16/11/2026
+# 16/11/2026
 Gaurav Rana Magar
 
-Added css for general use, hamburger menu when in mobile mode. Made a llittle bit responsive
+* Added css for general use, hamburger menu when in mobile mode. Made a llittle bit responsive
+
+Gaurav Rana Magar & Sarman Silwal
+
+* Made major changes to index.html
+  * Major changes in header, menu, credit and footer
+  * Added hamburger menu when in mobile view
+  * Added css properties
+* Added css file
+  * style.css - for general use like header and footer
+  * index.css and app.css for specific index.html and app.html respectively
+* Added in app.html
+  * Call api to get all the available treasure hunts
