@@ -15,50 +15,148 @@
 
 <script>
 
-    const params = new URLSearchParams(window.location.search);
-    if (!params.has('sessionID')) {
-        alert("Cannot get a question without session ID");
-        location.href = "app.html"
+    // Get the player's session
+    const sessionID = sessionStorage.getItem("session");
+
+    // Check whether a session exists
+    if (!sessionID) {
+        alert("No active game session found.");
+        location.href = "app.html";
     }
-    const sessionID = params.get('sessionID');
 
-    const QUESTION_URL = 'https://codecyprus.org/th/api/question?session=ag9nfmNvZGVjeXBydXNvcmdyFAsSB1Nlc3Npb24YgICAoMa0gQoM'
+    // Get HTML elements
+    const questionTextElement =
+        document.getElementById("questionText");
 
-    fetch(QUESTION_URL)
-    .then(res => res.json())
-    .then(data => {
-        if (data.status === "OK") {
-            if (data.correct){
+    const questionElement =
+        document.getElementById("question");
 
-            }
-            else{
-                alert(data.errorMessages);
-            }
+    const answerInput =
+        document.getElementById("answerInput");
 
+    const feedbackElement =
+        document.getElementById("feedback");
 
-        }
-    });
+    // Create the question API URL
+    const QUESTION_URL =
+        "https://codecyprus.org/th/api/question?session=" +
+        encodeURIComponent(sessionID);
 
-    function submitAnswer() {
-        const answer = answerElement.value;
-        const ANSWER_URL = 'https://codecyprus.org/th/api/answer?session=ag9nfmNvZGVjeXBydXNvcmdyFAsSB1Nlc3Npb24YgICAoMa0gQoM&answer=42'
-        fetch(ANSWER_URL)
-        .then(res => res.json())
-        .then(data => {
+    // Load a question
+    async function loadQuestion() {
+
+        try {
+
+            const response = await fetch(QUESTION_URL);
+            const data = await response.json();
+
             if (data.status === "OK") {
-                if (data.correct){
-                    if (data.completed){
 
-                    }
+                if (data.completed) {
+                    questionTextElement.textContent =
+                        "Congratulations! You completed the treasure hunt.";
+
+                    answerInput.disabled = true;
+                    return;
                 }
-                else {
-                    alert(data.errorMessages);
-                }
+
+                questionTextElement.textContent =
+                    data.questionText;
+
+                questionElement.textContent =
+                    "Question " +
+                    (data.currentQuestionIndex + 1) +
+                    " of " +
+                    data.numOfQuestions;
+
+                answerInput.value = "";
+                feedbackElement.textContent = "";
+
+            } else {
+
+                feedbackElement.textContent =
+                    "Unable to load question.";
+
+                console.error(data.errorMessages);
             }
-        })
+
+        } catch (error) {
+
+            feedbackElement.textContent =
+                "Something went wrong.";
+
+            console.error(error);
+        }
+    }
+
+    // Submit the player's answer
+    async function submitAnswer() {
+
+        const answer = answerInput.value.trim();
+
+        if (!answer) {
+            feedbackElement.textContent =
+                "Please enter an answer.";
+            return;
+        }
+
+        try {
+
+            const ANSWER_URL =
+                "https://codecyprus.org/th/api/answer?session=" +
+                encodeURIComponent(sessionID) +
+                "&answer=" +
+                encodeURIComponent(answer);
+
+            const response = await fetch(ANSWER_URL);
+            const data = await response.json();
+
+            if (data.status === "OK") {
+
+                if (data.correct) {
+
+                    feedbackElement.textContent =
+                        "Correct answer!";
+
+                    if (data.completed) {
+                        questionTextElement.textContent =
+                            "Congratulations! You completed the treasure hunt.";
+
+                        answerInput.disabled = true;
+                        return;
+                    }
+
+                    loadQuestion();
+
+                } else {
+
+                    feedbackElement.textContent =
+                        "Incorrect answer. Try again.";
+
+                }
+
+            } else {
+
+                feedbackElement.textContent =
+                    "Unable to submit your answer.";
+
+                console.error(data.errorMessages);
+            }
+
+        } catch (error) {
+
+            feedbackElement.textContent =
+                "Something went wrong.";
+
+            console.error(error);
+        }
+    }
+
+    // Load the first question
+    if (sessionID) {
+        loadQuestion();
     }
 
 </script>
-
 </body>
 </html>
