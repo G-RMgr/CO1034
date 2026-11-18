@@ -14,12 +14,12 @@
 </form>
 
 <script>
+
     const params = new URLSearchParams(window.location.search);
     if (!params.has('sessionID')) {
         alert("Cannot get a question without session ID");
         location.href = "app.html"
     }
-
     const sessionID = params.get('sessionID');
 
     const QUESTION_URL = 'https://codecyprus.org/th/api/question?session=ag9nfmNvZGVjeXBydXNvcmdyFAsSB1Nlc3Npb24YgICAoMa0gQoM'
@@ -57,6 +57,7 @@
             }
         })
     }
+
 </script>
 
 </body>

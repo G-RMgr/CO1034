@@ -52,3 +52,88 @@ Gaurav Rana Magar & Sarman Silwal
   * index.css and app.css for specific index.html and app.html respectively
 * Added in app.html
   * Call api to get all the available treasure hunts
+NISCHAL GAJUREL
+    Marketing Plan – Treasure Hunt App
+
+1. Marketing Strategy
+
+Our marketing strategy is to promote the Treasure Hunt app as an enjoyable and interactive activity. We want people to discover the app, try it with friends, and enjoy exploring through questions and challenges.
+
+Our main strategies are:
+
+Promote the app through social media.
+
+Encourage friends and students to try it.
+
+Share demonstrations of how the app works.
+
+Highlight the fun, interactive experience.
+
+Encourage users to recommend it to others.
+
+2. Target Audience
+
+Our main target audience is:
+
+University and college students.
+
+Young people who enjoy games and challenges.
+
+Groups of friends looking for fun activities.
+
+People interested in exploring new places.
+
+We focus on these groups because they may enjoy interactive activities, friendly competition, and solving questions.
+
+3. Social Media Promotion
+
+Social media can help us reach more people without requiring a large advertising budget.
+
+We are focusing to promote our app through:
+
+Instagram: Share screenshots, short videos, and stories.
+
+TikTok: Create short videos showing how the Treasure Hunt works.
+
+Facebook: Share information with student groups and communities.
+
+WhatsApp: Share the app with friends and classmates.
+
+We can also encourage users to share their experiences and invite their friends.
+
+4. Advertising the Treasure Hunt App
+
+Our advertising should clearly explain what the app does and why people should try it.
+
+Possible advertising methods:
+
+Create a simple promotional poster.
+
+Make a short demonstration video.
+
+Show screenshots of the app.
+
+Share a QR code or website link, if available.
+
+Promote the app around the university or through student communities, with permission.
+
+Example advertising message:
+
+"Ready for a challenge? Explore, answer questions, and enjoy the adventure with our Treasure Hunt app. Play with friends and see how far you can go!"
+
+5. My Personal Contribution to the Project
+
+My contribution is to support the development and promotion of the Treasure Hunt application.
+
+My responsibilities include:
+
+Understanding the purpose and features of the application.
+
+Contributing to the question-and-answer system.
+
+Helping test the application and identify problems.
+
+Suggesting ideas for marketing and promotion.
+
+Preparing promotional content to attract potential users.
+
