@@ -13,9 +13,15 @@
     <input type="text" placeholder="Enter your Name" id="playerName">
     <input type="button" value="Start" onclick="start()" />
 </form>
+<!-- Location developer: tells the player if location is on or if there is a problem -->
+<p id="locationMessage">Checking your location...</p>
+
+
+<label for="player">Your name</label>
+<input type="text" id="player" maxlength="30" placeholder="e.g. Alex" autocomplete="nickname">
 
 <script>
-    const treasureHuntNameElement = document.getElementById("treasureHunt");
+    const treasureHuntNameElement = document.getElementById("treasureHunt"c);
     const playerNameElement = document.getElementById("playerName");
     const params = new URLSearchParams(window.location.search);
 
@@ -45,6 +51,52 @@
         })
 
     }
+    // Location developer: check the location before the hunt starts
+    // (the updates every 2 minutes are sent from the question page by location.js)
+    const locationMessageElement = document.getElementById("locationMessage");
+
+    // Runs when the browser gives the location
+    function locationAllowed() {
+        locationMessageElement.textContent = "Location is on. Your position will be sent to the game every 2 minutes.";
+        locationMessageElement.style.color = "green";
+    }
+
+    // Runs when the browser cannot give the location, each error has its own message
+    function locationBlocked(error) {
+        let message = "Something went wrong while finding your location.";
+
+        if (error.code === error.PERMISSION_DENIED) {
+            message = "Location permission was denied. Please allow location in your browser settings, some clues need it.";
+        }
+        else if (error.code === error.POSITION_UNAVAILABLE) {
+            message = "Your position is not available right now. Check your GPS or signal.";
+        }
+        else if (error.code === error.TIMEOUT) {
+            message = "Finding your location took too long. Check your GPS or signal.";
+        }
+
+        locationMessageElement.textContent = message;
+        locationMessageElement.style.color = "red";
+    }
+
+    // Ask the browser for the position
+    function checkLocation() {
+        if (!navigator.geolocation) {
+            locationMessageElement.textContent = "Your browser does not support location.";
+            locationMessageElement.style.color = "red";
+            return;
+        }
+        navigator.geolocation.getCurrentPosition(locationAllowed, locationBlocked, { timeout: 10000 });
+    }
+
+    checkLocation();
+
+</script>
+
+
+</body>
+</html>
+
 
 </script>
 
