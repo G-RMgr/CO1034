@@ -40,6 +40,9 @@ async function sendLocation(latitude, longitude) {
 
         if (data.status === "OK") {
 
+            // Print the location on the console for debugging
+            console.log("Location sent: " + latitude + ", " + longitude);
+
             const time = new Date().toLocaleTimeString();
 
             showLocationMessage(
@@ -132,4 +135,37 @@ function getLocation() {
 if (locationSessionID) {
     getLocation();
     setInterval(getLocation, UPDATE_TIME);
+}
+// Send a fresh location straight away, used just before an answer is submitted
+
+function sendLocationNow(){
+    return new promise(function(resolve, reject) {
+        if (!navigator.geolocation) {
+            showLocationMessage(
+                        "your browser does not support location.",
+                true
+
+            );
+            resolve();
+            return;
+
+        }
+        navigator.geolocation.getCurrentPosition(
+            async function (position) {
+                await sendLocation(
+                    position.coords.latitude,
+                    position.coords.longitude
+                );
+                resolve();
+            },
+            function (error) {
+                locationError(error);
+                resolve();
+            },
+            { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
+        );
+
+
+    });
+
 }
