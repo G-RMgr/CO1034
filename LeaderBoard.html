@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leader Board</title>
+    <link rel="stylesheet" href="css/leaderboard.css">
+</head>
+<body>
+
+    <!-- Page header -->
+     
+    <header>
+        <h1>Treasure Hunt Adventure</h1>
+    </header>
+
+    <main>
+        <h2?>LeaderBoard</h2>
+        <p> See your rank against other players</p>
+
+        <!-- Displays loading  messages and errors -->
+
+        <p id="status" role=" status"> Loading Leaderboard</p>
+
+        <!-- Table for players rankings and scores -->
+        <table>
+            <thread>
+                <tr>
+                    <th>Rank</th>
+                    <th>Player Name</th>
+                    <th>Score</th>
+                </tr>
+            </thread>
+
+            <!-- Player data will be added using JavaScript -->
+            <tbody id="leaderboard-body">
+
+            </tbody>
+
+        </table>
+
+        <!-- refresh scores or return to the home page-->
+
+        <button id = "refresh-button">Refresh Leaderboard</button>
+
+        <a href= "index.html">Back to Home</a>
+
+
+    </main>
+
+    <!-- Connect the leaderboard functionality -->
+    <script type="module" src="js/leaderboard.js"></script>
+
+</body>
+</html>

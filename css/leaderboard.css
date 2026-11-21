@@ -1,0 +1,75 @@
+/* General page style*/
+body{
+    background-color: #eeeedb;
+    color: #627445;
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+}
+
+/* Main heading area */
+header {
+    background-color: #414f30;
+    color: #FFFFFF;
+    padding: 25px;
+    text-align: center;
+}
+
+/*Leaderboard content */
+
+main {
+    max-width: 850px;   /* sets a max width for larger screens */
+    margin: 40px auto;
+    padding: 25px;
+}
+
+/*page heading*/
+
+h2 {
+    text-align: center;
+    color: #627445;
+}
+
+/* leaderboard table*/
+
+table{
+    width: 100%;
+    border-collapse: collapse;  /*Combines adjacent table borders*/
+    background-color: #FFFFFF;
+    margin-top: 25px;
+}
+
+/* table headings and player data*/
+th, td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;   /*Adds a line below each table row*/
+}
+
+/*table heading background */
+
+th {
+    background-color: #414f30;
+    color: #FFFFFF;
+}
+
+/*refresh button*/
+button {
+    background-color: #414f30;
+    color: #ffdb00;
+    padding: 12px 20px;
+    border-radius: 7px;
+    border: none;
+    cursor: pointer;  /*Shows the hand cursor when hovering over a button*/
+    margin-top: 20px;
+}
+
+/* Change button colour when mouse is over it  */
+button:hover {
+    background-color: #627445;
+}
+
+/* Back to home link */
+a {
+    color: #627445;
+    margin-left: 15px;
+}
