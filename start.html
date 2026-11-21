@@ -41,6 +41,7 @@
             alert("Please enter your name.");
             return;
         }
+        localStorage.setItem("treasureHuntName", params.get("name"));
         const appName = "TEAM_G"
         const uuid = params.get("uuid");
         const START_URL = "https://codecyprus.org/th/api/start?" + "player=" + encodeURIComponent(playerName) + "&app=" + appName + "&treasure-hunt-id=" + uuid;
@@ -53,10 +54,23 @@
                localStorage.setItem("player", playerName);
                 location.href = 'question.html'
             }
+            
+
+            
+
+
             else{
                 alert(data.errorMessages);
             }
+            
         })
+
+        .catch(error => {
+                console.error("Error starting the game:", error);
+                alert("An error occurred while starting the game. Please try again.");
+            });
+
+            document.getElementById("startForm").addEventListener("submit", start);
 
     }
     // Location developer: check the location before the hunt starts
