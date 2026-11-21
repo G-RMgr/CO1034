@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="UTF-8">
     <title>Start</title>
 </head>
@@ -8,11 +10,11 @@
 <h1>Start <span id="treasureHunt"></span></h1>
 
 <p> Provide your Name to start the Treasure Hunt</p>
-
-<form>
-    <input type="text" placeholder="Enter your Name" id="playerName">
-    <input type="button" value="Start" onclick="start()" />
+<form id="startForm">
+    <input type="text" id="playerName" maxlength="30" placeholder="Enter your Name" autocomplete="nickname">
+    <button type="submit">Start</button>
 </form>
+
 <!-- Location developer: tells the player if location is on or if there is a problem -->
 <p id="locationMessage">Checking your location...</p>
 
@@ -21,18 +23,24 @@
 <input type="text" id="player" maxlength="30" placeholder="e.g. Alex" autocomplete="nickname">
 
 <script>
-    const treasureHuntNameElement = document.getElementById("treasureHunt"c);
+    const treasureHuntNameElement = document.getElementById("treasureHunt");
     const playerNameElement = document.getElementById("playerName");
     const params = new URLSearchParams(window.location.search);
 
     if (!params.has("name") || !params.has("uuid")) {
         alert("Please enter a valid name and uuid to start the Treasure Hunt.");
         location.href="app.html";
+        throw new Error("Missing params");
     }
-    treasureHuntNameElement.innerHTML = params.get("name");
+    treasureHuntNameElement.textContent = params.get("name");
 
-    function start() {
-        const playerName = playerNameElement.value;
+    function start(event) {
+        event.preventDefault();
+        const playerName = playerNameElement.value.trim();
+        if (!playerName) {
+            alert("Please enter your name.");
+            return;
+        }
         const appName = "TEAM_G"
         const uuid = params.get("uuid");
         const START_URL = "https://codecyprus.org/th/api/start?" + "player=" + encodeURIComponent(playerName) + "&app=" + appName + "&treasure-hunt-id=" + uuid;
@@ -41,8 +49,8 @@
         .then(data => {
             console.log(data);
             if(data.status === "OK") {
-               sessionStorage.setItem("session", data.session);
-               sessionStorage.setItem("player", playerName);
+               localStorage.setItem("session", data.session);
+               localStorage.setItem("player", playerName);
                 location.href = 'question.html'
             }
             else{
@@ -98,8 +106,3 @@
 </html>
 
 
-</script>
-
-
-</body>
-</html>
