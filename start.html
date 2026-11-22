@@ -19,8 +19,6 @@
 <p id="locationMessage">Checking your location...</p>
 
 
-<label for="player">Your name</label>
-<input type="text" id="player" maxlength="30" placeholder="e.g. Alex" autocomplete="nickname">
 
 <script>
     const treasureHuntNameElement = document.getElementById("treasureHunt");
@@ -70,9 +68,10 @@
                 alert("An error occurred while starting the game. Please try again.");
             });
 
-            document.getElementById("startForm").addEventListener("submit", start);
-
+            
     }
+    document.getElementById("startForm").addEventListener("submit", start);
+
     // Location developer: check the location before the hunt starts
     // (the updates every 2 minutes are sent from the question page by location.js)
     const locationMessageElement = document.getElementById("locationMessage");
