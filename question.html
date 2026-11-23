@@ -7,8 +7,10 @@
 <body>
 <h2 id = "questionText"></h2>
 <p id = "question"></p>
+<p id = "feedback"></p>
 
-<ul id = "answers"></ul>
+<div  id = "answersArea"></div>
+<div id = "skipArea"></div>
 <form>
     <input type="button" value="Submit" />
 </form>
@@ -16,11 +18,13 @@
 
 <script>
 
+
+
     // Get the player's session
-    const sessionID = sessionStorage.getItem("session");
+    const sessionID = params.get("sessionID");
 
     // Check whether a session exists
-    if (!sessionID) {
+    if (!params.has("sessionID")) {
         alert("No active game session found.");
         location.href = "app.html";
     }
@@ -41,7 +45,7 @@
     // Create the question API URL
     const QUESTION_URL =
         "https://codecyprus.org/th/api/question?session=" +
-        encodeURIComponent(sessionID);
+        sessionID;
 
     // Load a question
     async function loadQuestion() {
@@ -105,9 +109,9 @@
 
             const ANSWER_URL =
                 "https://codecyprus.org/th/api/answer?session=" +
-                encodeURIComponent(sessionID) +
+               sessionID +
                 "&answer=" +
-                encodeURIComponent(answer);
+                answer;
 
             const response = await fetch(ANSWER_URL);
             const data = await response.json();
@@ -156,6 +160,23 @@
     // Load the first question
     if (sessionID) {
         loadQuestion();
+    }
+
+    function skipQuestion(){
+        const SKIP_URL = "https://codecyprus.org/th/api/skip?session=" + sessionID;
+
+        fetch(SKIP_URL)
+        .then(res=>res.json())
+        .then(data=>{
+            console.log(data);
+            if (data.status === "OK") {
+                document.getElementById("questionText").innerHTML ="Question Skipped!";
+                loadQuestion();
+            } else {
+                alert(data.errorMessages);
+            }
+        })
+
     }
 
 </script>
