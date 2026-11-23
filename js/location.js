@@ -27,6 +27,7 @@ async function sendLocation(latitude, longitude) {
 
     try {
 
+
         const LOCATION_URL =
             "https://codecyprus.org/th/api/location?session=" +
             encodeURIComponent(locationSessionID) +
