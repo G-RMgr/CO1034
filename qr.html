@@ -1,0 +1,68 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Scanner</title>
+
+    <script src=""></script>
+
+    <style>
+        body{
+            font-family: Arial, sans-serif;
+            margin:20px;
+            text-align:center;
+        }
+
+        #reader{
+            width:100%;
+            max-width:500px;
+            margin:auto;
+        }
+
+        #result{
+            margin-top:30px;
+            padding:10px;
+            border:1px solid #ddd;
+            border-radius:10px;
+        }
+
+        button{
+            padding:10px 20px;
+            margin:10px;
+            cursor:pointer;
+        }
+
+        input{
+            width:90%;
+            padding:10px;
+            margin-top:10px;
+        }
+    </style>
+</head>
+
+<body>
+
+<h1>Treasure Hunt QR Scanner</h1>
+
+<div id="reader"></div>
+
+<div id="result">
+    <h3>QR Result</h3>
+    <p id="qrText">No QR scanned yet</p>
+
+    <input
+            type="text"
+            id="answerBox"
+            placeholder="Scanned text will appear here">
+
+    <div>
+        <button id="openButton" style="display:none;">
+            Open URL
+        </button>
+    </div>
+</div>
+
+</body>
+</html>
