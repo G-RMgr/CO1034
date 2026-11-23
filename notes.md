@@ -9,6 +9,7 @@ Gaurav Rana Magar
 Abdus Saboor Qudwai
 
 
+
 * Added landing page ("index.html") with layout, header, navigation, hero section, project scope, advantage list and team 
 * Added note.txt for DOCUMENTATION and developmental steps of the project
 * Removed boilerplate text and unlinked text

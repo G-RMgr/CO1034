@@ -7,10 +7,8 @@
 <body>
 <h2 id = "questionText"></h2>
 <p id = "question"></p>
-<p id = "feedback"></p>
 
-<div  id = "answersArea"></div>
-<div id = "skipArea"></div>
+<ul id = "answers"></ul>
 <form>
     <input type="button" value="Submit" />
 </form>
@@ -18,14 +16,11 @@
 
 <script>
 
-
-
     // Get the player's session
-    const params = new URLSearchParams(window.location.search);
-    const sessionID = params.get("sessionID");
+    const sessionID = sessionStorage.getItem("session");
 
     // Check whether a session exists
-    if (!params.has("sessionID")) {
+    if (!sessionID) {
         alert("No active game session found.");
         location.href = "app.html";
     }
@@ -46,49 +41,54 @@
     // Create the question API URL
     const QUESTION_URL =
         "https://codecyprus.org/th/api/question?session=" +
-        sessionID;
+        encodeURIComponent(sessionID);
 
     // Load a question
     async function loadQuestion() {
 
+        try {
 
-        fetch(QUESTION_URL)
-            .then(response => response.json())
-            .then(data => {
-                console.log(data);
-                if (data.status === "OK") {
-                    if (data.completed) {
-                        document.getElementById("questionText").innerHTML =
-                            "Congratulations! You completed the treasure hunt.";
+            const response = await fetch(QUESTION_URL);
+            const data = await response.json();
 
-                        document.getElementById("question").innerHTML = "";
-                        document.getElementById("answerArea").innerHTML = "";
-                        document.getElementById("skipArea").innerHTML = "";
-                        return;
-                    }
+            if (data.status === "OK") {
 
-                    document.getElementById("questionText").innerHTML =
-                        data.questionText;
+                if (data.completed) {
+                    questionTextElement.textContent =
+                        "Congratulations! You completed the treasure hunt.";
 
-                    document.getElementById("question").innerHTML =
-                        "Question " +
-                        (data.currentQuestionIndex + 1) +
-                        " of " +
-                        data.numOfQuestions;
-
-                    //displays the skip button only if the question can be skipped
-                    showAnswerInput(data.questionText);
-                    if (data.canBeSkipped) {
-                        document.getElementById("skipArea").innerHTML = "<button onclick= 'skipQuestion()'>Skip</button>";
-                    } else {
-                        document.getElementById("skipArea").innerHTML = "";
-                    }
-                } else {
-                    alert(data.errorMessages);
+                    answerInput.disabled = true;
+                    return;
                 }
-            });
-    }
 
+                questionTextElement.textContent =
+                    data.questionText;
+
+                questionElement.textContent =
+                    "Question " +
+                    (data.currentQuestionIndex + 1) +
+                    " of " +
+                    data.numOfQuestions;
+
+                answerInput.value = "";
+                feedbackElement.textContent = "";
+
+            } else {
+
+                feedbackElement.textContent =
+                    "Unable to load question.";
+
+                console.error(data.errorMessages);
+            }
+
+        } catch (error) {
+
+            feedbackElement.textContent =
+                "Something went wrong.";
+
+            console.error(error);
+        }
+    }
 
     // Submit the player's answer
     async function submitAnswer() {
@@ -101,17 +101,19 @@
             return;
         }
 
+        try {
+
             const ANSWER_URL =
                 "https://codecyprus.org/th/api/answer?session=" +
-               sessionID +
+                encodeURIComponent(sessionID) +
                 "&answer=" +
-                answer;
+                encodeURIComponent(answer);
 
-             fetch(ANSWER_URL)
-            .then(response => response.json())
-            .then(data => {
-                console.log(data);
+            const response = await fetch(ANSWER_URL);
+            const data = await response.json();
+
             if (data.status === "OK") {
+
                 if (data.correct) {
 
                     feedbackElement.textContent =
@@ -139,33 +141,22 @@
                 feedbackElement.textContent =
                     "Unable to submit your answer.";
 
-                alert(data.errorMessages);
+                console.error(data.errorMessages);
             }
-        });
+
+        } catch (error) {
+
+            feedbackElement.textContent =
+                "Something went wrong.";
+
+            console.error(error);
+        }
     }
 
     // Load the first question
     if (sessionID) {
         loadQuestion();
     }
-
-    function skipQuestion(){
-        const SKIP_URL = "https://codecyprus.org/th/api/skip?session=" + sessionID;
-
-        fetch(SKIP_URL)
-        .then(res=>res.json())
-        .then(data=>{
-            console.log(data);
-            if (data.status === "OK") {
-                document.getElementById("questionText").innerHTML ="Question Skipped!";
-                loadQuestion();
-            } else {
-                alert(data.errorMessages);
-            }
-        })
-
-    }
-
 </script>
 </body>
 </html>
