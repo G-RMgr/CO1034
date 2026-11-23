@@ -138,3 +138,8 @@ Suggesting ideas for marketing and promotion.
 
 Preparing promotional content to attract potential users.
 
+
+# 23/11/2026
+nischal gajurel
+
+* implementing qr features
