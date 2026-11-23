@@ -1,4 +1,5 @@
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -39,10 +40,9 @@
             padding:10px;
             margin-top:10px;
         }
-    </style>
-</head>
+    </style> </head>
 
-<body>
+
 
 <h1>Treasure Hunt QR Scanner</h1>
 
@@ -61,6 +61,45 @@
         <button id="openButton" style="display:none;">
             Open URL
         </button>
+        <script src="https://cdn.jsdelivr.net/npm/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
+        <script>
+            const qrText = document.getElementById("qrText");
+            const answerBox = document.getElementById("answerBox");
+            const openButton = document.getElementById("openButton");
+
+            // uses the existing <div id="reader">
+            const scanner = new Html5Qrcode("reader");
+
+            function onScanSuccess(content) {
+                qrText.textContent = content;
+                answerBox.value = content;
+
+                if (content.startsWith("http://") || content.startsWith("https://")) {
+                    openButton.style.display = "inline-block";
+                    openButton.onclick = function () {
+                        window.open(content, "_blank", "noopener");
+                    };
+                } else {
+                    openButton.style.display = "none";
+                }
+            }
+
+            async function startScanner() {
+                try {
+                    // "environment" = rear camera on phones, falls back to the webcam on laptops
+                    await scanner.start(
+                        { facingMode: "environment" },
+                        { fps: 10, qrbox: { width: 250, height: 250 } },
+                        onScanSuccess
+                    );
+                } catch (error) {
+                    console.error(error);
+                    alert("Could not start the camera: " + error);
+                }
+            }
+
+            startScanner();
+        </script>
     </div>
 </div>
 
