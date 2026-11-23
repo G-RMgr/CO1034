@@ -21,6 +21,7 @@
 
 
     // Get the player's session
+    const params = new URLSearchParams(window.location.search);
     const sessionID = params.get("sessionID");
 
     // Check whether a session exists
@@ -50,49 +51,44 @@
     // Load a question
     async function loadQuestion() {
 
-        try {
 
-            const response = await fetch(QUESTION_URL);
-            const data = await response.json();
+        fetch(QUESTION_URL)
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                if (data.status === "OK") {
+                    if (data.completed) {
+                        document.getElementById("questionText").innerHTML =
+                            "Congratulations! You completed the treasure hunt.";
 
-            if (data.status === "OK") {
+                        document.getElementById("question").innerHTML = "";
+                        document.getElementById("answerArea").innerHTML = "";
+                        document.getElementById("skipArea").innerHTML = "";
+                        return;
+                    }
 
-                if (data.completed) {
-                    questionTextElement.textContent =
-                        "Congratulations! You completed the treasure hunt.";
+                    document.getElementById("questionText").innerHTML =
+                        data.questionText;
 
-                    answerInput.disabled = true;
-                    return;
+                    document.getElementById("question").innerHTML =
+                        "Question " +
+                        (data.currentQuestionIndex + 1) +
+                        " of " +
+                        data.numOfQuestions;
+
+                    //displays the skip button only if the question can be skipped
+                    showAnswerInput(data.questionText);
+                    if (data.canBeSkipped) {
+                        document.getElementById("skipArea").innerHTML = "<button onclick= 'skipQuestion()'>Skip</button>";
+                    } else {
+                        document.getElementById("skipArea").innerHTML = "";
+                    }
+                } else {
+                    alert(data.errorMessages);
                 }
-
-                questionTextElement.textContent =
-                    data.questionText;
-
-                questionElement.textContent =
-                    "Question " +
-                    (data.currentQuestionIndex + 1) +
-                    " of " +
-                    data.numOfQuestions;
-
-                answerInput.value = "";
-                feedbackElement.textContent = "";
-
-            } else {
-
-                feedbackElement.textContent =
-                    "Unable to load question.";
-
-                console.error(data.errorMessages);
-            }
-
-        } catch (error) {
-
-            feedbackElement.textContent =
-                "Something went wrong.";
-
-            console.error(error);
-        }
+            });
     }
+
 
     // Submit the player's answer
     async function submitAnswer() {
@@ -105,19 +101,17 @@
             return;
         }
 
-        try {
-
             const ANSWER_URL =
                 "https://codecyprus.org/th/api/answer?session=" +
                sessionID +
                 "&answer=" +
                 answer;
 
-            const response = await fetch(ANSWER_URL);
-            const data = await response.json();
-
+             fetch(ANSWER_URL)
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
             if (data.status === "OK") {
-
                 if (data.correct) {
 
                     feedbackElement.textContent =
@@ -145,16 +139,9 @@
                 feedbackElement.textContent =
                     "Unable to submit your answer.";
 
-                console.error(data.errorMessages);
+                alert(data.errorMessages);
             }
-
-        } catch (error) {
-
-            feedbackElement.textContent =
-                "Something went wrong.";
-
-            console.error(error);
-        }
+        });
     }
 
     // Load the first question
