@@ -16,7 +16,7 @@
 <div id="skipBox"></div>
 
 <script>
-    // Read sessionID from the URL or saved sessionStorage
+    // Read sessionID from URL or sessionStorage
     const urlParams = new URLSearchParams(window.location.search);
     let sessionID = urlParams.get("sessionID");
 
@@ -26,7 +26,6 @@
         sessionStorage.setItem("session", sessionID);
     }
 
-    // Stop if no active session exists
     if (sessionID == null) {
         alert("No session found!");
         window.location.href = "app.html";
@@ -39,7 +38,6 @@
             return;
         }
 
-        // Syllabus pattern: show "Loading..." before fetch()
         document.getElementById("questionTitle").innerHTML = "Loading...";
         document.getElementById("questionNumber").innerHTML = "";
         document.getElementById("message").innerHTML = "";
@@ -83,19 +81,19 @@
         let box = document.getElementById("inputBox");
 
         if (type == "INTEGER") {
-            box.innerHTML = '<input type="number" id="userAnswer" placeholder="Enter a whole number">';
+            box.innerHTML = '<input type="number" name="userAnswer" id="userAnswer" step="1" required placeholder="Enter a whole number">';
         } else if (type == "NUMERIC") {
-            box.innerHTML = '<input type="number" step="any" id="userAnswer" placeholder="Enter a number">';
+            box.innerHTML = '<input type="number" name="userAnswer" id="userAnswer" step="any" required placeholder="Enter a number">';
         } else if (type == "TEXT") {
-            box.innerHTML = '<input type="text" id="userAnswer" placeholder="Type your answer">';
+            box.innerHTML = '<input type="text" name="userAnswer" id="userAnswer" maxlength="100" required placeholder="Type your answer">';
         } else if (type == "BOOLEAN") {
-            box.innerHTML = '<select id="userAnswer">' +
+            box.innerHTML = '<select name="userAnswer" id="userAnswer" required>' +
                 '<option value="">Choose...</option>' +
                 '<option value="true">True</option>' +
                 '<option value="false">False</option>' +
                 '</select>';
         } else if (type == "MCQ") {
-            box.innerHTML = '<select id="userAnswer">' +
+            box.innerHTML = '<select name="userAnswer" id="userAnswer" required>' +
                 '<option value="">Choose...</option>' +
                 '<option value="A">A</option>' +
                 '<option value="B">B</option>' +
@@ -116,9 +114,15 @@
             return;
         }
 
+        // Check HTML built-in validation rules (like step="1" or required)
+        if (!input.checkValidity()) {
+            input.reportValidity();
+            return;
+        }
+
         let answer = input.value.trim();
         if (answer == "") {
-            document.getElementById("message").innerHTML = "Please write an answer first.";
+            document.getElementById("message").innerHTML = "Please write or choose an answer first.";
             return;
         }
 
