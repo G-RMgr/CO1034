@@ -1,6 +1,6 @@
 // Location developer: geolocation, 2 minute update and error messages
 
-// we get the session ID from the session storage, which was set when the player logged in
+// we get the session ID from the local storage, which was set when the player logged in
 const locationSessionID = localStorage.getItem("session");
 
 // The location is sent every 2 minutes (in milliseconds)
