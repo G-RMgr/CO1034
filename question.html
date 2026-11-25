@@ -2,7 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Question</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/app.css">
 </head>
 <body>
 
@@ -16,15 +19,42 @@
 <div id="skipBox"></div>
 
 <script>
-    // Read sessionID from URL or sessionStorage
-    const urlParams = new URLSearchParams(window.location.search);
-    let sessionID = urlParams.get("sessionID");
+    
+    
+    let sessionID = localStorage.getItem("session");
 
-    if (sessionID == null) {
-        sessionID = sessionStorage.getItem("session");
-    } else {
-        sessionStorage.setItem("session", sessionID);
+
+    function formatErrors(errorMessages) {
+        if (Array.isArray(errorMessages)) {
+            return errorMessages.join(", ");
+        }
+        return errorMessages || "";
     }
+
+    function clearSavedSession() {
+        localStorage.removeItem("session");
+        localStorage.removeItem("player");
+        sessionID = null;
+    }
+
+    function handleApiError(errorMessages, fallbackText) {
+        const currentSession = sessionID;
+        const msg = formatErrors(errorMessages) || fallbackText;
+        document.getElementById("message").textContent = msg;
+
+        if (/time\s*(limit|expired|up)/i.test(msg)) {
+            clearSavedSession();
+            document.getElementById("questionTitle").textContent = "Time is up!";
+            const sessionParam = currentSession ? "?session=" + encodeURIComponent(currentSession) : "";
+            document.getElementById("inputBox").innerHTML =
+                "<p><a href='leaderboard.html" + sessionParam + "'>View Leaderboard</a></p>" +
+                "<p><a href='app.html'>Back to treasure hunt</a></p>";
+            document.getElementById("skipBox").innerHTML = "";
+            document.getElementById("submitButton").style.display = "none";
+        }
+    }
+
+
 
     if (sessionID == null) {
         alert("No session found!");
@@ -66,16 +96,15 @@
                         }
                     }
                 } else {
-                    document.getElementById("questionTitle").innerHTML = "Error!";
-                    document.getElementById("message").innerHTML = data.errorMessages;
+                    document.getElementById("questionTitle").textContent = "Error!";
+                    handleApiError(data.errorMessages, "Could not load question.");
                 }
             })
             .catch(() => {
-                document.getElementById("questionTitle").innerHTML = "Error!";
-                document.getElementById("message").innerHTML =
-                    "Network error. Check your internet connection and refresh.";
+                document.getElementById("questionTitle").textContent = "Error!";
+                document.getElementById("message").textContent =
+                    "Network error. Check your connection and refresh.";
             });
-    }
 
     function makeInput(type) {
         let box = document.getElementById("inputBox");
@@ -134,31 +163,44 @@
 
         fetch(url)
             .then(r => r.json())
-            .then(data => {
+           .then(data => {
+                console.log(data);
                 if (data.status == "OK") {
+                    const delta = typeof data.scoreAdjustment === "number"
+                        ? data.scoreAdjustment
+                        : (typeof data.scoreChange === "number" ? data.scoreChange : null);
+                    const scoreText = delta !== null
+                        ? " (" + (delta >= 0 ? "+" : "") + delta + " pts)"
+                        : "";
+
                     if (data.correct == true) {
-                        document.getElementById("message").innerHTML = "Correct!";
+                        document.getElementById("message").textContent = "Correct!" + scoreText;
                         if (data.completed == true) {
                             setTimeout(showFinished, 1000);
                         } else {
                             setTimeout(getQuestion, 1000);
                         }
                     } else {
-                        document.getElementById("message").innerHTML = "Wrong answer, try again!";
+                        document.getElementById("message").textContent = "Wrong answer, try again!" + scoreText;
                     }
                 } else {
-                    document.getElementById("message").innerHTML = data.errorMessages;
+                    handleApiError(data.errorMessages, "Could not check answer.");
                 }
             })
             .catch(() => {
                 document.getElementById("message").innerHTML = "Error! Could not send your answer.";
             });
-    }
+    }}
 
     function skip() {
         if (sessionID == null) {
             return;
         }
+
+
+        if (!confirm ("Skipping this question may cost points. Are you sure you want to skip?")) {
+        return;
+    }
 
         document.getElementById("message").innerHTML = "Skipping question...";
 
@@ -184,12 +226,35 @@
     }
 
     function showFinished() {
-        document.getElementById("questionTitle").innerHTML = "You finished the treasure hunt!";
-        document.getElementById("questionNumber").innerHTML = "";
-        document.getElementById("message").innerHTML = "";
+        const finishedSession = sessionID;
+        clearSavedSession();
+
+        document.getElementById("questionTitle").textContent = "You finished the treasure hunt!";
+        document.getElementById("questionNumber").textContent = "";
+        document.getElementById("message").textContent = "Loading your score...";
         document.getElementById("inputBox").innerHTML = "";
         document.getElementById("skipBox").innerHTML = "";
         document.getElementById("submitButton").style.display = "none";
+
+        const scoreUrl = "https://codecyprus.org/th/api/score?session=" + encodeURIComponent(finishedSession);
+
+        fetch(scoreUrl)
+            .then(r => r.json())
+            .then(data => {
+                if (data.status == "OK") {
+                    document.getElementById("message").textContent = "Final Score: " + data.score;
+                } else {
+                    document.getElementById("message").textContent =
+                        formatErrors(data.errorMessages) || "Could not load your score.";
+                }
+            })
+            .catch(() => {
+                document.getElementById("message").textContent = "Could not load your score.";
+            })
+            .finally(() => {
+                document.getElementById("inputBox").innerHTML =
+                    "<p><a href='leaderboard.html?session=" + encodeURIComponent(finishedSession) + "'>View Leaderboard</a></p>" + "<p><a href='app.html'>Back to treasure hunt</a></p>";
+            });
     }
 </script>
 
