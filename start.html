@@ -41,8 +41,8 @@
         .then(data => {
             console.log(data);
             if(data.status === "OK") {
-               sessionStorage.setItem("session", data.session);
-               sessionStorage.setItem("player", playerName);
+               localStorage.setItem("session", data.session);
+               localStorage.setItem("player", playerName);
                 location.href = 'question.html'
             }
             else{
@@ -98,8 +98,3 @@
 </html>
 
 
-</script>
-
-
-</body>
-</html>
