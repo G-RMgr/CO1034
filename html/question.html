@@ -39,7 +39,7 @@
         let text = Array.isArray(errorMessages) ? errorMessages.join(" ") : (errorMessages || fallback);
         document.getElementById("message").textContent = text;
 
-        if (/time\s*(limit|expired|up)/i.test(text)) {
+        if (/time\s*(limit|expired|up)|run\s+out\s+of\s+time/i.test(text)) {
             let oldSession = sessionID;
             localStorage.removeItem("session");
             sessionID = null;
