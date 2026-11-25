@@ -11,7 +11,7 @@
 
 <h2 id="questionTitle">Loading...</h2>
 <p id="questionNumber"></p>
-<p id="Score">Score: --</p>
+<p id="liveScore">Score: --</p>
 <p id="message"></p>
 
 <div id="inputBox"></div>
@@ -27,6 +27,7 @@
         window.location.href = "app.html";
     } else {
         getQuestion();
+        updateScore();
     }
 
     function showError(errorMessages, fallback) {
@@ -91,27 +92,23 @@
     }
 
     function updateScore() {
-    if (sessionID == null) {
-        return;
+        if (sessionID == null) {
+            return;
+        }
+
+        let url = "https://codecyprus.org/th/api/score?session=" + encodeURIComponent(sessionID);
+
+        fetch(url)
+            .then(r => r.json())
+            .then(data => {
+                if (data.status == "OK") {
+                    document.getElementById("liveScore").textContent = "Score: " + data.score;
+                }
+            })
+            .catch(() => {
+                console.error("Error fetching score.");
+            });
     }
-
-    let url = "https://codecyprus.org/th/api/score?session=" + encodeURIComponent(sessionID);
-
-    fetch(url)
-        .then(r => r.json())
-        .then(data => {
-            if (data.status == "OK") {
-                document.getElementById("liveScore").textContent = "Score: " + data.score;
-            }
-        })
-        .catch(() => {
-            console.error("Error fetching score.");
-            
-        });
-}
-
-
-
 
     function makeInput(type) {
         let box = document.getElementById("inputBox");
@@ -179,6 +176,7 @@
 
                     if (data.correct == true) {
                         document.getElementById("message").textContent = "Correct!" + scoreText;
+                        updateScore();
                         if (data.completed == true) {
                             setTimeout(showFinished, 1000);
                         } else {
@@ -186,6 +184,7 @@
                         }
                     } else {
                         document.getElementById("message").textContent = "Wrong answer, try again!" + scoreText;
+                        updateScore();
                     }
                 } else {
                     showError(data.errorMessages, "Could not check answer.");
@@ -217,6 +216,7 @@
                         showFinished();
                     } else {
                         document.getElementById("message").innerHTML = "Question skipped.";
+                        updateScore();
                         setTimeout(getQuestion, 1000);
                     }
                 } else {
