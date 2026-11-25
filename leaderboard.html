@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>leaderboard</title>
+</head>
+<body>
+
+<ol id = "leaderboard">
+
+</ol>
+
+<script>
+    const leaderboardElement = document.getElementById('leaderboard');
+
+    const params = new URLSearchParams(window.location.search);
+    if (params.has("SessionID")){
+        alert("Cannot show the leaderboard without session ID");
+        location.href = "app.html";
+    }
+</script>
+
+</body>
+</html>
