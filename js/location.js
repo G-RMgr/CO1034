@@ -1,7 +1,7 @@
 // Location developer: geolocation, 2 minute update and error messages
 
-// Get the player's session (saved by the start page)
-const locationSessionID = sessionStorage.getItem("session");
+// we get the session ID from the session storage, which was set when the player logged in
+const locationSessionID = localStorage.getItem("session");
 
 // The location is sent every 2 minutes (in milliseconds)
 const UPDATE_TIME = 2 * 60 * 1000;
@@ -12,6 +12,10 @@ const locationElement =
 
 // Show a message to the player (red for errors, green when everything is fine)
 function showLocationMessage(message, isError) {
+
+    if (!locationElement) {
+        return;
+    }
 
     locationElement.textContent = message;
 
@@ -133,14 +137,25 @@ function getLocation() {
 }
 
 // Start the location updates (send now, then every 2 minutes)
+
+let locationIntervalID = null;
+
+function stopLocationUpdates() {
+    if (locationIntervalID !== null) {
+        clearInterval(locationIntervalID);
+        locationIntervalID = null;
+    }
+
+}
+
 if (locationSessionID) {
     getLocation();
-    setInterval(getLocation, UPDATE_TIME);
+    locationIntervalID = setInterval(getLocation, UPDATE_TIME);
 }
 // Send a fresh location straight away, used just before an answer is submitted
 
 function sendLocationNow(){
-    return new promise(function(resolve, reject) {
+    return new Promise(function(resolve, reject) {
         if (!navigator.geolocation) {
             showLocationMessage(
                         "your browser does not support location.",

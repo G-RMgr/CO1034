@@ -13,6 +13,7 @@
 <p id="questionNumber"></p>
 <p id="liveScore">Score: --</p>
 <p id="message"></p>
+<p id="locationMessage"></p>
 
 <div id="inputBox"></div>
 <br>
@@ -38,6 +39,10 @@
             let oldSession = sessionID;
             localStorage.removeItem("session");
             sessionID = null;
+
+        if(typeof stopLocationUpdates === "function") {
+            stopLocationUpdates();
+        }
             document.getElementById("questionTitle").textContent = "Time is up!";
             document.getElementById("inputBox").innerHTML =
                 '<p><a href="leaderboard.html?session=' + encodeURIComponent(oldSession) + '">View Leaderboard</a></p>' +
@@ -160,6 +165,18 @@
             return;
         }
 
+        document.getElementById("message").innerHTML = "Getting location...";
+    
+    if (typeof sendLocationNow === "function") {
+        sendLocationNow().then(() => {
+            submitAnswer(answer);
+        });
+    } else {
+        submitAnswer(answer);
+    
+    }
+    }
+    function submitAnswer(answer) {
         document.getElementById("message").innerHTML = "Checking answer...";
 
         let url = "https://codecyprus.org/th/api/answer?session=" +
@@ -197,6 +214,7 @@
             });
     }
 
+    
     function skip() {
         if (sessionID == null) {
             return;
@@ -235,6 +253,10 @@
         localStorage.removeItem("session");
         sessionID = null;
 
+        if(typeof stopLocationUpdates === "function") {
+            stopLocationUpdates();
+        }
+
         document.getElementById("questionTitle").textContent = "You finished the treasure hunt!";
         document.getElementById("questionNumber").textContent = "";
         document.getElementById("message").textContent = "Loading final score...";
@@ -260,7 +282,13 @@
                     '<p><a href="app.html">Back to Treasure Hunts</a></p>';
             });
     }
+
+    
+
 </script>
+
+
+<script src="js/location.js"></script>
 
 </body>
 </html>
