@@ -11,6 +11,7 @@
 
 <h2 id="questionTitle">Loading...</h2>
 <p id="questionNumber"></p>
+<p id="Score">Score: --</p>
 <p id="message"></p>
 
 <div id="inputBox"></div>
@@ -88,6 +89,29 @@
                     "Network error. Check your internet connection and refresh.";
             });
     }
+
+    function updateScore() {
+    if (sessionID == null) {
+        return;
+    }
+
+    let url = "https://codecyprus.org/th/api/score?session=" + encodeURIComponent(sessionID);
+
+    fetch(url)
+        .then(r => r.json())
+        .then(data => {
+            if (data.status == "OK") {
+                document.getElementById("liveScore").textContent = "Score: " + data.score;
+            }
+        })
+        .catch(() => {
+            console.error("Error fetching score.");
+            
+        });
+}
+
+
+
 
     function makeInput(type) {
         let box = document.getElementById("inputBox");
