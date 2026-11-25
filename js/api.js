@@ -42,4 +42,4 @@ export async function fetchTreasureHunts() {
     return list.map ((item, idx) => ({
         id: item.id ?? item._uuid ?? `hunt-${idx}`,
         name: item.name || item.title || 'Untitled Hunt',
-    ));
+    }));};
