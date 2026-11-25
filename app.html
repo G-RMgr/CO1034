@@ -103,20 +103,54 @@ if (savedSession) {
         .then(data => {
             if (data.status === "OK") {
                 const list = document.getElementById('treasureHunts');
-                const treasureHunts = data.treasureHunts;
+                const statusMessage = document.getElementById('statusMessage');
+                list.innerHTML = ''; // Clear the loading message
+
+                if (data.status === "OK") {
+                    const treasureHunts = data.treasureHunts || [];
+                }
+
+                if (treasureHunts.length === 0) {
+                    statusMessage.textContent = "No treasure hunts available at the moment.";
+                    return; // Exit the function if there are no treasure hunts
+                
+                }
 
                 for (let i = 0; i < treasureHunts.length; i++) {
-                    let listItem = document.createElement('li');
-                    listItem.innerHTML = "<a href='start.html?uuid=" + treasureHunts[i].uuid + "'>" + treasureHunts[i].name + "</a>";
+                    const hunt = treasureHunts[i];
+                    const listItem = document.createElement('li');
+                    const link = document.createElement('a');
+                    
+                    link.href = 'start.html?uuid=' + encodeURIComponent(hunt.uuid) + '&name=' + encodeURIComponent(hunt.name);
+                    
+                    link.textContent = hunt.name;
+                    
+                    listItem.appendChild(link);
+                    
                     list.appendChild(listItem);
                 }
             }
             /* Displays an error message if the API request was unsuccessful */
             else{
-                alert(data.errorMessages);
+                statusMessage.textContent = data.errorMessages || "Error fetching treasure hunts: " ;
+
             }
 
+        })
+        .catch(error => {
+            console.error("Error fetching treasure hunts:", error);
+            const list = document.getElementById('treasureHunts');
+            list.innerHTML = ''; // Clear the loading message
+            const statusMessage = document.getElementById('statusMessage');
+            statusMessage.textContent = "An error occurred while fetching treasure hunts. Please try again later.";
         });
+
+
+
+
+
+
+
     </script>
         
 
