@@ -2,7 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Question</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/app.css">
 </head>
 <body>
 
@@ -23,6 +26,23 @@
         window.location.href = "app.html";
     } else {
         getQuestion();
+    }
+
+    function showError(errorMessages, fallback) {
+        let text = Array.isArray(errorMessages) ? errorMessages.join(" ") : (errorMessages || fallback);
+        document.getElementById("message").textContent = text;
+
+        if (/time\s*(limit|expired|up)/i.test(text)) {
+            let oldSession = sessionID;
+            localStorage.removeItem("session");
+            sessionID = null;
+            document.getElementById("questionTitle").textContent = "Time is up!";
+            document.getElementById("inputBox").innerHTML =
+                '<p><a href="leaderboard.html?session=' + encodeURIComponent(oldSession) + '">View Leaderboard</a></p>' +
+                '<p><a href="app.html">Back to Treasure Hunts</a></p>';
+            document.getElementById("skipBox").innerHTML = "";
+            document.getElementById("submitButton").style.display = "none";
+        }
     }
 
     function getQuestion() {
@@ -59,7 +79,7 @@
                     }
                 } else {
                     document.getElementById("questionTitle").innerHTML = "Error!";
-                    document.getElementById("message").innerHTML = data.errorMessages;
+                    showError(data.errorMessages, "Could not load question.");
                 }
             })
             .catch(() => {
@@ -126,19 +146,27 @@
         fetch(url)
             .then(r => r.json())
             .then(data => {
+                console.log("Answer response:", data);
                 if (data.status == "OK") {
+                    let change = typeof data.scoreAdjustment === "number"
+                        ? data.scoreAdjustment
+                        : (typeof data.scoreChange === "number" ? data.scoreChange : null);
+                    let scoreText = change !== null
+                        ? " (" + (change >= 0 ? "+" : "") + change + " pts)"
+                        : "";
+
                     if (data.correct == true) {
-                        document.getElementById("message").innerHTML = "Correct!";
+                        document.getElementById("message").textContent = "Correct!" + scoreText;
                         if (data.completed == true) {
                             setTimeout(showFinished, 1000);
                         } else {
                             setTimeout(getQuestion, 1000);
                         }
                     } else {
-                        document.getElementById("message").innerHTML = "Wrong answer, try again!";
+                        document.getElementById("message").textContent = "Wrong answer, try again!" + scoreText;
                     }
                 } else {
-                    document.getElementById("message").innerHTML = data.errorMessages;
+                    showError(data.errorMessages, "Could not check answer.");
                 }
             })
             .catch(() => {
@@ -148,6 +176,10 @@
 
     function skip() {
         if (sessionID == null) {
+            return;
+        }
+
+        if (!confirm("Skipping this question may deduct points. Continue?")) {
             return;
         }
 
@@ -166,7 +198,7 @@
                         setTimeout(getQuestion, 1000);
                     }
                 } else {
-                    document.getElementById("message").innerHTML = data.errorMessages;
+                    showError(data.errorMessages, "Could not skip question.");
                 }
             })
             .catch(() => {
@@ -175,12 +207,34 @@
     }
 
     function showFinished() {
-        document.getElementById("questionTitle").innerHTML = "You finished the treasure hunt!";
-        document.getElementById("questionNumber").innerHTML = "";
-        document.getElementById("message").innerHTML = "";
+        let finishedSession = sessionID;
+        localStorage.removeItem("session");
+        sessionID = null;
+
+        document.getElementById("questionTitle").textContent = "You finished the treasure hunt!";
+        document.getElementById("questionNumber").textContent = "";
+        document.getElementById("message").textContent = "Loading final score...";
         document.getElementById("inputBox").innerHTML = "";
         document.getElementById("skipBox").innerHTML = "";
         document.getElementById("submitButton").style.display = "none";
+
+        fetch("https://codecyprus.org/th/api/score?session=" + encodeURIComponent(finishedSession))
+            .then(r => r.json())
+            .then(data => {
+                if (data.status == "OK") {
+                    document.getElementById("message").textContent = "Final Score: " + data.score;
+                } else {
+                    document.getElementById("message").textContent = "Hunt complete!";
+                }
+            })
+            .catch(() => {
+                document.getElementById("message").textContent = "Hunt complete!";
+            })
+            .finally(() => {
+                document.getElementById("inputBox").innerHTML =
+                    '<p><a href="leaderboard.html?session=' + encodeURIComponent(finishedSession) + '">View Leaderboard</a></p>' +
+                    '<p><a href="app.html">Back to Treasure Hunts</a></p>';
+            });
     }
 </script>
 
