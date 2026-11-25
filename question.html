@@ -105,7 +105,7 @@
                 document.getElementById("message").textContent =
                     "Network error. Check your connection and refresh.";
             });
-
+    }
     function makeInput(type) {
         let box = document.getElementById("inputBox");
 
@@ -190,7 +190,7 @@
             .catch(() => {
                 document.getElementById("message").innerHTML = "Error! Could not send your answer.";
             });
-    }}
+    }
 
     function skip() {
         if (sessionID == null) {
@@ -217,7 +217,7 @@
                         setTimeout(getQuestion, 1000);
                     }
                 } else {
-                    document.getElementById("message").innerHTML = data.errorMessages;
+                    handleApiError(data.errorMessages, "Could not skip question.");
                 }
             })
             .catch(() => {
