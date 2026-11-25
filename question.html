@@ -71,6 +71,8 @@
                         let current = data.currentQuestionIndex + 1;
                         document.getElementById("questionNumber").innerHTML =
                             "Question " + current + " of " + data.numOfQuestions;
+                        updateScore();
+                        
 
                         makeInput(data.questionType);
 
